@@ -1,4 +1,4 @@
-package site.nomoreparties.stellarburgers;
+package site.nomoreparties.stellarburgers.restapiclient;
 
 import io.restassured.config.RedirectConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
-public class BaseClient {
+public class BaseApiClient {
 
     private final String JSON = "application/json";
     private static final String BASE_URL = "stellarburgers.nomoreparties.site";
@@ -49,6 +49,18 @@ public class BaseClient {
 
     //универсальный метод Post с Сериализацией (body as POJO)
     protected Response doPostRequest(String endPoint, Object body) {
+        return given()
+                .log().uri()
+                .and()
+                .log().body()
+                .config(config)
+                .header("Content-Type", JSON)
+                .body(body)
+                .post(BASE_URL + endPoint);
+    }
+
+    //универсальный метод Post со строкой в теле (body as POJO)
+    protected Response doPostRequest(String endPoint, String body) {
         return given()
                 .log().uri()
                 .and()
