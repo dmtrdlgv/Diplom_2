@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 public class BaseApiClient {
 
     private final String JSON = "application/json";
-    private static final String BASE_URL = "stellarburgers.nomoreparties.site";
+    private static final String BASE_URL = "https://stellarburgers.nomoreparties.site";
 
     //config основного клиента
     private final RestAssuredConfig config = RestAssuredConfig.newConfig()
@@ -72,13 +72,13 @@ public class BaseApiClient {
     }
 
     //Универсальный метод Patch
-    protected Response doPatchRequest(String endPoint, Object body) {
+    protected Response doPatchRequest(String endPoint, HashMap headers, Object body) {
         return given()
                 .log().uri()
                 .and()
                 .log().body()
                 .config(config)
-                .header("Content-Type", JSON)
+                .headers(headers)
                 .body(body)
                 .patch(BASE_URL + endPoint);
     }

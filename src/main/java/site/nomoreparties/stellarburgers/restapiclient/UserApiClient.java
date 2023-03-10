@@ -13,6 +13,7 @@ public class UserApiClient extends BaseApiClient{
     private final String USER_TOKEN_UPDATE_ENDPOINT = "/api/auth/token";
     private final String USER_INFO_ENDPOINT = "/api/auth/user";
 
+
     private String body;
     private HashMap<String, String> headers;
 
@@ -24,8 +25,8 @@ public class UserApiClient extends BaseApiClient{
         return doPostRequest(USER_LOGIN_ENDPOINT, user);
     }
 
-    public Response logOutUser(String token) {
-        body = String.format("{\"token\": \"%s\"}", token);
+    public Response logOutUser(String refreshToken) {
+        body = String.format("{\"token\": \"%s\"}", refreshToken);
         return doPostRequest(USER_LOGOUT_ENDPOINT, body);
     }
 
@@ -37,6 +38,19 @@ public class UserApiClient extends BaseApiClient{
     public Response getUserInfo(String token) {
         headers = new HashMap<>();
         headers.put("Authorization", token);
-        return doGetRequestWithHeaders(USER_TOKEN_UPDATE_ENDPOINT, headers);
+        return doGetRequestWithHeaders(USER_INFO_ENDPOINT, headers);
+    }
+
+    public Response updateUserInfo(String token, User user) {
+        headers = new HashMap<>();
+        headers.put("Content-type", "application/json");
+        headers.put("Authorization", token);
+        return doPatchRequest(USER_INFO_ENDPOINT, headers, user);
+    }
+
+    public Response deleteUser(String token) {
+        headers = new HashMap<>();
+        headers.put("Authorization", token);
+        return doDeleteRequestWithHeaders(USER_INFO_ENDPOINT, headers);
     }
 }
