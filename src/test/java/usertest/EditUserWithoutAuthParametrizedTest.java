@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.model.RandomGenerator;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
 

@@ -1,5 +1,7 @@
 package site.nomoreparties.stellarburgers.model;
 
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
+
 public class User {
 
     private String email;

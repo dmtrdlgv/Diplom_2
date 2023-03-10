@@ -1,4 +1,4 @@
-package site.nomoreparties.stellarburgers.model;
+package site.nomoreparties.stellarburgers.utils;
 
 import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;

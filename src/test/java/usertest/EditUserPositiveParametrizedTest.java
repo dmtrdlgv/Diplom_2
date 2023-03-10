@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.model.RandomGenerator;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
 
@@ -47,15 +47,16 @@ public class EditUserPositiveParametrizedTest {
         userSteps.setTokensFromResponseToUser(userSteps.registerUser(baseUser), baseUser);
         response = userSteps.updateUserInfo(baseUser.getAccessToken(), editUser);
 
+        //присвоение юзеру данных из параметров, чтобы потом сверить успешные изменения
         if (email != null) baseUser.setEmail(email);
         if (password != null) baseUser.setPassword(password);
         if (name != null) baseUser.setName(name);
 
-        //проверка ответа запроса на изменение юзера
-        userSteps.checkResponseOfUpdateUser(response, baseUser);
-
         loginUser.setEmail(baseUser.getEmail());
         loginUser.setPassword(baseUser.getPassword());
+
+        //проверка почты и пароля в теле ответа запроса на изменение юзера
+        userSteps.checkResponseOfUpdateUser(response, baseUser);
         response = userSteps.loginUser(loginUser);
 
         //проверка изменения пароля через успешный вход с новыми данными
