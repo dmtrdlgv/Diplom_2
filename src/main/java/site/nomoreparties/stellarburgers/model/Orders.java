@@ -7,7 +7,6 @@ import java.util.List;
 public class Orders {
 
     private boolean success;
-    private String name;
     private List<Order> orders;
     private int total;
     private int totalToday;
@@ -17,7 +16,6 @@ public class Orders {
 
     public Orders(boolean success, String name, List<Order> orders, int total, int totalToday) {
         this.success = success;
-        this.name = name;
         this.orders = orders;
         this.total = total;
         this.totalToday = totalToday;
@@ -29,14 +27,6 @@ public class Orders {
 
     public void setSuccess(boolean success) {
         this.success = success;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public List<Order> getOrders() {

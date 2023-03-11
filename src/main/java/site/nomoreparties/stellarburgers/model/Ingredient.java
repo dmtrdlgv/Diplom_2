@@ -15,7 +15,8 @@ public class Ingredient {
     private String image_large;
     private int __v;
 
-    public Ingredient() {}
+    public Ingredient() {
+    }
 
     public String get_id() {
         return _id;

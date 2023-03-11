@@ -11,9 +11,8 @@ import static io.restassured.RestAssured.given;
 
 public class BaseApiClient {
 
-    private final String JSON = "application/json";
     private static final String BASE_URL = "https://stellarburgers.nomoreparties.site";
-
+    private final String JSON = "application/json";
     //config основного клиента
     private final RestAssuredConfig config = RestAssuredConfig.newConfig()
             .sslConfig(new SSLConfig().relaxedHTTPSValidation())
@@ -31,7 +30,7 @@ public class BaseApiClient {
     //универсальный метод Get с Хедерами но без парамтров
     protected Response doGetRequestWithHeaders(String endPoint, HashMap headers) {
         return given()
-                .log().all()
+                .log().uri()
                 .config(config)
                 .headers(headers)
                 .get(BASE_URL + endPoint);
@@ -72,7 +71,7 @@ public class BaseApiClient {
     }
 
     //универсальный метод Post с хедером и с Сериализацией (body as POJO)
-    protected Response doPostRequestWithHeaders(String endPoint,HashMap headers, Object body) {
+    protected Response doPostRequestWithHeaders(String endPoint, HashMap headers, Object body) {
         return given()
                 .log().uri()
                 .and()

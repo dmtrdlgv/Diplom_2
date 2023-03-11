@@ -1,9 +1,6 @@
 package ordertest;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +11,7 @@ import site.nomoreparties.stellarburgers.steps.UserSteps;
 
 import java.util.ArrayList;
 
-public class OrderTest {
+public class OrderNegativeTest {
 
     private final OrderSteps orderSteps = new OrderSteps();
     private final UserSteps userSteps = new UserSteps();
@@ -36,28 +33,38 @@ public class OrderTest {
         ingredientsResponse = new IngredientsResponse();
         response = orderSteps.getIngredientList();
         ingredientsResponse = response.body().as(IngredientsResponse.class);
-        RestAssured.filters( new ResponseLoggingFilter(LogDetail.BODY));
     }
 
     @Test
-    @DisplayName("Base positive test of creating new Order with ingredients but without authorization")
-    public void createNewOrder_WithIngredientsAndWithoutAuth_ExpectedOk() {
-        //записываем нужное колич ингредиентов для будущего заказа
-        for (int i = 0; i < 3; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).get_id());
+    @DisplayName("Negative test of creating new order without ingredients and auth")
+    public void createNewOrder_WithoutIngredientsAndAuth_ExpectedError() {
         response = orderSteps.createNewOrder(null, ingredients);
-        orderSteps.checkResponseOfSuccessCreatingNewOrderWithoutAuth(response);
+        orderSteps.checkStatusCodeAndBodyOfErrorResponse(response, 400, "Ingredient ids must be provided"
+        );
     }
 
     @Test
-    @DisplayName("Base positive test of creating new Order with ingredients and authorization")
-    public void createNewOrder_WithIngredientsAndAuth_ExpectedOk() {
-        //записываем нужное колич ингредиентов для будущего заказа
-        for (int i = 0; i < 5; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).get_id());
+    @DisplayName("Negative test of creating new order without ingredients and with auth")
+    public void createNewOrder_WithoutIngredientsAndWithAuth_ExpectedError() {
         response = orderSteps.createNewOrder(user.getAccessToken(), ingredients);
-        orderSteps.checkResponseOfSuccessCreatingNewOrderWithAuth(response, user);
+        orderSteps.checkStatusCodeAndBodyOfErrorResponse(response, 400, "Ingredient ids must be provided"
+        );
     }
 
+    @Test
+    @DisplayName("Negative test of creating new order with invalid ingredients hash")
+    public void createNewOrder_WithInvalidIngredients_ExpectedError() {
+        ingredients.addIngredient("invalid_hash");
+        response = orderSteps.createNewOrder(null, ingredients);
+        orderSteps.checkStatusCode(response, 500);
+    }
 
+    @Test
+    @DisplayName("Negative test of getting user order list without auth")
+    public void getUserOrderList_WithoutAuth_ExpectedError() {
+        response = orderSteps.getUserOrderList(null);
+        orderSteps.checkStatusCodeAndBodyOfErrorResponse(response, 401, "You should be authorised");
+    }
 
     @After
     public void tearDown() {

@@ -5,7 +5,8 @@ import io.restassured.response.Response;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.restapiclient.UserApiClient;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
 
 public class UserSteps {
 
@@ -24,7 +25,7 @@ public class UserSteps {
                 .and()
                 .body(
                         "success", equalTo(true),
-                        "user.email",equalTo(user.getEmail()),
+                        "user.email", equalTo(user.getEmail()),
                         "user.name", equalTo(user.getName()),
                         "$", hasKey("accessToken"),
                         "$", hasKey("refreshToken")
@@ -96,7 +97,7 @@ public class UserSteps {
                 .statusCode(200)
                 .body(
                         "success", equalTo(true),
-                        "user.email",equalTo(user.getEmail()),
+                        "user.email", equalTo(user.getEmail()),
                         "user.name", equalTo(user.getName())
                 );
     }

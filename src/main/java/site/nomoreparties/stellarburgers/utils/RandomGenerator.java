@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class RandomGenerator {
 
-    private static Faker faker = new Faker(Locale.forLanguageTag("ru"));
+    private final static Faker faker = new Faker(Locale.forLanguageTag("ru"));
 
     public static String randomName() {
         return faker.name().fullName();
@@ -15,11 +15,11 @@ public class RandomGenerator {
 
     //применяется lowerCase т.к. почтовые адреса нерегистрозависимы
     public static String randomEmail() {
-        return String.format("%s@%s.ru", RandomStringUtils.randomAlphanumeric(5,20),RandomStringUtils.randomAlphanumeric(5,10)).toLowerCase();
+        return String.format("%s@%s.ru", RandomStringUtils.randomAlphanumeric(5, 20), RandomStringUtils.randomAlphanumeric(5, 10)).toLowerCase();
     }
 
     public static String randomPassword() {
-        return RandomStringUtils.randomAlphanumeric(5,20) + "!";
+        return RandomStringUtils.randomAlphanumeric(5, 20) + "!";
     }
 
 }

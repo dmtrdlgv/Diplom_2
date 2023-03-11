@@ -5,7 +5,7 @@ import site.nomoreparties.stellarburgers.model.Ingredients;
 
 import java.util.HashMap;
 
-public class OrderApiClient extends BaseApiClient{
+public class OrderApiClient extends BaseApiClient {
 
     private final String GET_INGREDIENTS_ENDPOINT = "/api/ingredients";
     private final String ORDERS_ENDPOINT = "/api/orders";
@@ -17,6 +17,7 @@ public class OrderApiClient extends BaseApiClient{
     }
 
     public Response getUserOrderList(String accessToken) {
+        headers = new HashMap<>();
         headers.put("Authorization", accessToken);
         return doGetRequestWithHeaders(ORDERS_ENDPOINT, headers);
     }
@@ -27,7 +28,7 @@ public class OrderApiClient extends BaseApiClient{
 
     public Response createNewOrder(String accessToken, Ingredients ingredients) {
         headers = new HashMap<>();
-        headers.put("Content-Type","application/json");
+        headers.put("Content-Type", "application/json");
         headers.put("Authorization", accessToken);
         return doPostRequestWithHeaders(ORDERS_ENDPOINT, headers, ingredients);
     }

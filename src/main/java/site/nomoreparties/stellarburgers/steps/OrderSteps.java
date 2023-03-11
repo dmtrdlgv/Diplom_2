@@ -3,7 +3,10 @@ package site.nomoreparties.stellarburgers.steps;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
-import site.nomoreparties.stellarburgers.model.*;
+import site.nomoreparties.stellarburgers.model.Ingredients;
+import site.nomoreparties.stellarburgers.model.Order;
+import site.nomoreparties.stellarburgers.model.Orders;
+import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.restapiclient.OrderApiClient;
 
 import java.util.ArrayList;
@@ -15,10 +18,6 @@ public class OrderSteps {
     private final OrderApiClient orderApiClient = new OrderApiClient();
     private final SoftAssertions softly = new SoftAssertions();
     private Orders orders;
-    private Ingredients ingredients;
-    private Ingredient ingredient;
-    private IngredientsResponse ingredientsResponse;
-    private User user;
 
     @Step("Getting ingredient list GET api/ingredients")
     public Response getIngredientList() {
@@ -65,7 +64,7 @@ public class OrderSteps {
                         "order", hasKey("ingredients"),
                         "order.owner.name", equalTo(creatingUser.getName()),
                         "order.owner.email", equalTo(creatingUser.getEmail()),
-                        "order._id",notNullValue(),
+                        "order._id", notNullValue(),
                         "order.status", notNullValue(),
                         "order.number", notNullValue(),
                         "order.price", notNullValue(),
@@ -78,13 +77,13 @@ public class OrderSteps {
     public void checkResponseOfUserOrderList(Response response, ArrayList userOrdersId) {
         orders = new Orders();
         orders = response.body().as(Orders.class);
-        softly.assertThat(orders.isSuccess()).isTrue();
+        softly.assertThat(orders.isSuccess()).as("Success is not match").isTrue();
         //проверка соответствия созданных пользователем заказов и списка заказов
-        for (Order order: orders.getOrders()) {
-            softly.assertThat(userOrdersId.contains(order.get_id())).isTrue();
+        for (Order order : orders.getOrders()) {
+            softly.assertThat(userOrdersId.contains(order.get_id())).as("Order id is not match").isTrue();
         }
-        softly.assertThat(orders.getTotalToday()).isEqualTo(userOrdersId.size());
-        softly.assertThat(orders.getTotal()).isEqualTo(userOrdersId.size());
+        softly.assertThat(orders.getTotalToday()).as("No match getTotalToday").isEqualTo(userOrdersId.size());
+        softly.assertThat(orders.getTotal()).as("No match getTotal").isEqualTo(userOrdersId.size());
         softly.assertAll();
     }
 
@@ -94,7 +93,15 @@ public class OrderSteps {
         response
                 .then()
                 .statusCode(expectedCode)
-                .and()
                 .body("success", equalTo(false), "message", equalTo(expectedMessage));
+    }
+
+    //Универсальный шаг проверки отдельно статус кода
+    @Step("Check status code")
+    public void checkStatusCode(Response response, int expectedCode) {
+        response
+                .then()
+                .statusCode(expectedCode);
+
     }
 }

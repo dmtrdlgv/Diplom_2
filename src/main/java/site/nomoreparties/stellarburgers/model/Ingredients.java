@@ -22,6 +22,7 @@ public class Ingredients {
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
+
     public void addIngredient(String ingredient) {
         this.ingredients.add(ingredient);
     }

@@ -1,6 +1,9 @@
 package usertest;
 
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.RestAssured;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
@@ -10,10 +13,10 @@ import site.nomoreparties.stellarburgers.steps.UserSteps;
 
 public class UserTest {
 
+    private final UserSteps userSteps = new UserSteps();
     private User baseUser;
     private User secondUser;
     private Response response;
-    private final UserSteps userSteps = new UserSteps();
 
     @Before
     public void init() {
@@ -26,11 +29,12 @@ public class UserTest {
         secondUser = new User();
         secondUser.setEmail(baseUser.getEmail());
         secondUser.setPassword(baseUser.getPassword());
+        RestAssured.filters(new ResponseLoggingFilter(LogDetail.BODY), new ResponseLoggingFilter(LogDetail.STATUS));
     }
 
     @Test
     @DisplayName("Base test success register user")
-    public void registerUser_WithCorrectData_ExpectedOK(){
+    public void registerUser_WithCorrectData_ExpectedOK() {
         response = userSteps.registerUser(baseUser);
         userSteps.setTokensFromResponseToUser(response, baseUser);
         userSteps.checkStatusCodeAndResponseBodyOfRegisterUser(response, 200, baseUser);
@@ -70,7 +74,7 @@ public class UserTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         if (baseUser.getAccessToken() != null) {
             userSteps.deleteUserAndCheckResponse(baseUser.getAccessToken());
         }

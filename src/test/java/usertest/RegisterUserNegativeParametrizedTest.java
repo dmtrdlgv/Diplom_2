@@ -4,9 +4,9 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 
 @RunWith(Parameterized.class)
 public class RegisterUserNegativeParametrizedTest {
@@ -28,7 +28,7 @@ public class RegisterUserNegativeParametrizedTest {
 
     @Parameterized.Parameters(name = "Тестовые данные: {0}, {1}, {2}")
     public static Object[][] getData() {
-        return new Object[][] {
+        return new Object[][]{
                 {RandomGenerator.randomEmail(), RandomGenerator.randomPassword(), null,},
                 {RandomGenerator.randomEmail(), null, RandomGenerator.randomName()},
                 {null, RandomGenerator.randomPassword(), RandomGenerator.randomName()},

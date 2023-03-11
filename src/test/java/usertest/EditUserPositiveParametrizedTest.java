@@ -4,21 +4,21 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 
 @RunWith(Parameterized.class)
 public class EditUserPositiveParametrizedTest {
 
+    private static final UserSteps userSteps = new UserSteps();
+    private static Response response;
     private final String email;
     private final String password;
     private final String name;
-    private static final UserSteps userSteps = new UserSteps();
     private User baseUser;
     private User loginUser;
     private User editUser;
-    private static Response response;
 
     public EditUserPositiveParametrizedTest(String email, String password, String name) {
         this.email = email;
@@ -28,7 +28,7 @@ public class EditUserPositiveParametrizedTest {
 
     @Parameterized.Parameters(name = "Test data for user edit: email: {0}, password: {1}, name: {2}")
     public static Object[][] getData() {
-        return new Object[][] {
+        return new Object[][]{
                 {RandomGenerator.randomEmail(), null, null},
                 {null, null, RandomGenerator.randomName()},
                 {null, RandomGenerator.randomPassword(), null},
@@ -37,8 +37,13 @@ public class EditUserPositiveParametrizedTest {
         };
     }
 
+    @Parameterized.AfterParam
+    public static void tearDown() {
+        userSteps.deleteUser(response.path("accessToken").toString());
+    }
+
     @Test
-    public void editUserInfoExpectedOk(){
+    public void editUserInfoExpectedOk() {
 
         baseUser = new User();
         editUser = new User(email, password, name);
@@ -61,10 +66,5 @@ public class EditUserPositiveParametrizedTest {
 
         //проверка изменения пароля через успешный вход с новыми данными
         userSteps.checkStatusCodeAndResponseBodyOfUserLogin(response, 200, baseUser);
-    }
-
-    @Parameterized.AfterParam
-    public static void tearDown() {
-        userSteps.deleteUser(response.path("accessToken").toString());
     }
 }

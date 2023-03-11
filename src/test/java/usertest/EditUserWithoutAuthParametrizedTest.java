@@ -4,20 +4,20 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 
 @RunWith(Parameterized.class)
 public class EditUserWithoutAuthParametrizedTest {
 
+    private static final UserSteps userSteps = new UserSteps();
+    private static Response response;
     private final String email;
     private final String password;
     private final String name;
-    private static final UserSteps userSteps = new UserSteps();
     private User baseUser;
     private User editUser;
-    private static Response response;
 
     public EditUserWithoutAuthParametrizedTest(String email, String password, String name) {
         this.email = email;
@@ -27,7 +27,7 @@ public class EditUserWithoutAuthParametrizedTest {
 
     @Parameterized.Parameters(name = "Test data for user edit: email: {0}, password: {1}, name: {2}")
     public static Object[][] getData() {
-        return new Object[][] {
+        return new Object[][]{
                 {RandomGenerator.randomEmail(), null, null},
                 {null, null, RandomGenerator.randomName()},
                 {null, RandomGenerator.randomPassword(), null},
@@ -35,7 +35,7 @@ public class EditUserWithoutAuthParametrizedTest {
     }
 
     @Test
-    public void editUserInfo_WithoutAuthToken_ExpectedError(){
+    public void editUserInfo_WithoutAuthToken_ExpectedError() {
 
         baseUser = new User();
         editUser = new User(email, password, name);

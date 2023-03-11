@@ -5,7 +5,7 @@ import java.util.List;
 public class Order {
 
     private String _id;
-    private Ingredients ingredients;
+    private List<String> ingredients;
     private String status;
     private String name;
     private String createdAt;
@@ -15,7 +15,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String _id, Ingredients ingredients, String status, String name, String createdAt, String updatedAt,
+    public Order(String _id, List<String> ingredients, String status, String name, String createdAt, String updatedAt,
                  int number) {
         this._id = _id;
         this.ingredients = ingredients;
@@ -34,11 +34,11 @@ public class Order {
         this._id = _id;
     }
 
-    public Ingredients getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Ingredients ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 

@@ -5,19 +5,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 import site.nomoreparties.stellarburgers.model.User;
 import site.nomoreparties.stellarburgers.steps.UserSteps;
+import site.nomoreparties.stellarburgers.utils.RandomGenerator;
 
 @RunWith(Parameterized.class)
 public class LoginUserNegativeParametrizedTest {
 
+    private static final UserSteps userSteps = new UserSteps();
+    private static User baseUser;
     private final String email;
     private final String password;
-    private static final UserSteps userSteps = new UserSteps();
     private final String expectedMessage = "email or password are incorrect";
     private final int expectedStatusCode = 401;
-    private static User baseUser;
     private User loginUser;
     private Response response;
 
@@ -35,11 +35,20 @@ public class LoginUserNegativeParametrizedTest {
 
     @Parameterized.Parameters(name = "Тестовые данные: {0}, {1}")
     public static Object[][] getData() {
-        return new Object[][] {
+        return new Object[][]{
                 {RandomGenerator.randomEmail(), null},
                 {null, RandomGenerator.randomPassword()},
                 {null, null}
         };
+    }
+
+    @Parameterized.AfterParam
+    public static void tearDown() {
+        if (baseUser.getAccessToken() != null) {
+            userSteps.deleteUserAndCheckResponse(baseUser.getAccessToken());
+            baseUser.setRefreshToken(null);
+            baseUser.setAccessToken(null);
+        }
     }
 
     @Test
@@ -52,14 +61,5 @@ public class LoginUserNegativeParametrizedTest {
         loginUser.setPassword(password);
         response = userSteps.loginUser(loginUser);
         userSteps.checkStatusCodeAndBodyOfErrorResponse(response, expectedStatusCode, expectedMessage);
-    }
-
-    @Parameterized.AfterParam
-    public static void tearDown(){
-        if (baseUser.getAccessToken() != null) {
-            userSteps.deleteUserAndCheckResponse(baseUser.getAccessToken());
-            baseUser.setRefreshToken(null);
-            baseUser.setAccessToken(null);
-        }
     }
 }

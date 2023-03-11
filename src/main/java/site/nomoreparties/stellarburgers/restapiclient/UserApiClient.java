@@ -5,7 +5,7 @@ import site.nomoreparties.stellarburgers.model.User;
 
 import java.util.HashMap;
 
-public class UserApiClient extends BaseApiClient{
+public class UserApiClient extends BaseApiClient {
 
     private final String USER_REGISTER_ENDPOINT = "/api/auth/register";
     private final String USER_LOGIN_ENDPOINT = "/api/auth/login";
