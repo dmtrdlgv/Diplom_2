@@ -22,7 +22,7 @@ public class BaseApiClient {
     //универсальный метод Get без параметров и хедеров
     protected Response doGetRequest(String endPoint) {
         return given()
-                .log().all()
+                .log().uri()
                 .config(config)
                 .header("Content-Type", JSON)
                 .get(BASE_URL + endPoint);
@@ -67,6 +67,18 @@ public class BaseApiClient {
                 .log().body()
                 .config(config)
                 .header("Content-Type", JSON)
+                .body(body)
+                .post(BASE_URL + endPoint);
+    }
+
+    //универсальный метод Post с хедером и с Сериализацией (body as POJO)
+    protected Response doPostRequestWithHeaders(String endPoint,HashMap headers, Object body) {
+        return given()
+                .log().uri()
+                .and()
+                .log().body()
+                .config(config)
+                .headers(headers)
                 .body(body)
                 .post(BASE_URL + endPoint);
     }

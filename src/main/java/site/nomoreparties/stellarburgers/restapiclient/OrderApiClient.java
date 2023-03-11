@@ -26,6 +26,9 @@ public class OrderApiClient extends BaseApiClient{
     }
 
     public Response createNewOrder(String accessToken, Ingredients ingredients) {
-        return doPostRequest(ORDERS_ENDPOINT, ingredients);
+        headers = new HashMap<>();
+        headers.put("Content-Type","application/json");
+        headers.put("Authorization", accessToken);
+        return doPostRequestWithHeaders(ORDERS_ENDPOINT, headers, ingredients);
     }
 }

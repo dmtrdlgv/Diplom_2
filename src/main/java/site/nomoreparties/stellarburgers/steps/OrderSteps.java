@@ -61,10 +61,10 @@ public class OrderSteps {
                 .and()
                 .body(
                         "success", equalTo(true),
-                        "owner.name", equalTo(creatingUser.getName()),
-                        "owner.email", equalTo(creatingUser.getEmail()),
                         "order", notNullValue(),
                         "order", hasKey("ingredients"),
+                        "order.owner.name", equalTo(creatingUser.getName()),
+                        "order.owner.email", equalTo(creatingUser.getEmail()),
                         "order._id",notNullValue(),
                         "order.status", notNullValue(),
                         "order.number", notNullValue(),
