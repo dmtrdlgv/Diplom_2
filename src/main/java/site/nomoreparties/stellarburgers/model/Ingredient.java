@@ -1,5 +1,7 @@
 package site.nomoreparties.stellarburgers.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Ingredient {
 
     private String _id;
@@ -13,7 +15,8 @@ public class Ingredient {
     private String image;
     private String image_mobile;
     private String image_large;
-    private int __v;
+    @SerializedName("__v")
+    private int v;
 
     public Ingredient() {
     }
@@ -106,11 +109,11 @@ public class Ingredient {
         this.image_large = image_large;
     }
 
-    public int get__v() {
-        return __v;
+    public int getV() {
+        return v;
     }
 
-    public void set__v(int __v) {
-        this.__v = __v;
+    public void setV(int v) {
+        this.v = v;
     }
 }
