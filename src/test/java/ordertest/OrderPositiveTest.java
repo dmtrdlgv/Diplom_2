@@ -39,7 +39,7 @@ public class OrderPositiveTest {
     @DisplayName("Base positive test of creating new Order with ingredients but without authorization")
     public void createNewOrder_WithIngredientsAndWithoutAuth_ExpectedOk() {
         //записываем нужное колич ингредиентов для будущего заказа
-        for (int i = 0; i < 3; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).get_id());
+        for (int i = 0; i < 3; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).getId());
         response = orderSteps.createNewOrder(null, ingredients);
         orderSteps.checkResponseOfSuccessCreatingNewOrderWithoutAuth(response);
     }
@@ -48,7 +48,7 @@ public class OrderPositiveTest {
     @DisplayName("Base positive test of creating new Order with ingredients and authorization")
     public void createNewOrder_WithIngredientsAndAuth_ExpectedOk() {
         //записываем нужное колич ингредиентов для будущего заказа
-        for (int i = 0; i < 5; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).get_id());
+        for (int i = 0; i < 5; i++) ingredients.addIngredient(ingredientsResponse.getData().get(i).getId());
         response = orderSteps.createNewOrder(user.getAccessToken(), ingredients);
         orderSteps.checkResponseOfSuccessCreatingNewOrderWithAuth(response, user);
     }
@@ -58,7 +58,7 @@ public class OrderPositiveTest {
     public void getUserOrderList_WithIngredientsAndAuth_ExpectedUserOrders() {
 
         ArrayList<String> ordersId = new ArrayList<>();
-        ingredients.addIngredient(ingredientsResponse.getData().get(0).get_id());
+        ingredients.addIngredient(ingredientsResponse.getData().get(0).getId());
         //создаем 2 заказа от юзера
         response = orderSteps.createNewOrder(user.getAccessToken(), ingredients);
         ordersId.add(response.body().jsonPath().getString("order._id"));
