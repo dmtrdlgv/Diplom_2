@@ -80,7 +80,7 @@ public class OrderSteps {
         softly.assertThat(orders.isSuccess()).as("Success is not match").isTrue();
         //проверка соответствия созданных пользователем заказов и списка заказов
         for (Order order : orders.getOrders()) {
-            softly.assertThat(userOrdersId.contains(order.get_id())).as("Order id is not match").isTrue();
+            softly.assertThat(userOrdersId.contains(order.getId())).as("Order id is not match").isTrue();
         }
         softly.assertThat(orders.getTotalToday()).as("No match getTotalToday").isEqualTo(userOrdersId.size());
         softly.assertThat(orders.getTotal()).as("No match getTotal").isEqualTo(userOrdersId.size());

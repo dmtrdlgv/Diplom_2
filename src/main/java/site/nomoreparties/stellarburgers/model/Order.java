@@ -1,10 +1,13 @@
 package site.nomoreparties.stellarburgers.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Order {
 
-    private String _id;
+    @SerializedName("_id")
+    private String id;
     private List<String> ingredients;
     private String status;
     private String name;
@@ -15,9 +18,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(String _id, List<String> ingredients, String status, String name, String createdAt, String updatedAt,
+    public Order(String id, List<String> ingredients, String status, String name, String createdAt, String updatedAt,
                  int number) {
-        this._id = _id;
+        this.id = id;
         this.ingredients = ingredients;
         this.status = status;
         this.name = name;
@@ -26,12 +29,12 @@ public class Order {
         this.number = number;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<String> getIngredients() {

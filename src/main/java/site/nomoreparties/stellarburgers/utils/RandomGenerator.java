@@ -13,7 +13,7 @@ public class RandomGenerator {
         return faker.name().fullName();
     }
 
-    //применяется lowerCase т.к. почтовые адреса нерегистрозависимы
+    // Применяется lowerCase т.к. почтовые адреса не регистрозависимы
     public static String randomEmail() {
         return String.format("%s@%s.ru", RandomStringUtils.randomAlphanumeric(5, 20), RandomStringUtils.randomAlphanumeric(5, 10)).toLowerCase();
     }

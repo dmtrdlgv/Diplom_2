@@ -14,8 +14,10 @@ public class Ingredient {
     private int calories;
     private int price;
     private String image;
-    private String image_mobile;
-    private String image_large;
+    @SerializedName("image_mobile")
+    private String imageMobile;
+    @SerializedName("image_mobile")
+    private String imageLarge;
     @SerializedName("__v")
     private int v;
 
@@ -94,20 +96,20 @@ public class Ingredient {
         this.image = image;
     }
 
-    public String getImage_mobile() {
-        return image_mobile;
+    public String getImageMobile() {
+        return imageMobile;
     }
 
-    public void setImage_mobile(String image_mobile) {
-        this.image_mobile = image_mobile;
+    public void setImageMobile(String imageMobile) {
+        this.imageMobile = imageMobile;
     }
 
-    public String getImage_large() {
-        return image_large;
+    public String getImageLarge() {
+        return imageLarge;
     }
 
-    public void setImage_large(String image_large) {
-        this.image_large = image_large;
+    public void setImageLarge(String imageLarge) {
+        this.imageLarge = imageLarge;
     }
 
     public int getV() {
